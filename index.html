@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Integrais 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="title-block">
+          <p class="eyebrow">Cálculo visual</p>
+          <h1>Calculadora de integrais 3D</h1>
+        </div>
+
+        <div class="controls-grid">
+          <div class="field funcao-field">
+            <span>Função f(x)</span>
+            <input id="funcaoInput" type="text" value="x^2" placeholder="Ex: x^2, sin(x), exp(-x)" />
+            <div class="quick-examples" aria-label="Exemplos rápidos">
+              <button type="button" class="example-btn" data-example="x^2">x²</button>
+              <button type="button" class="example-btn" data-example="sin(x)">sin(x)</button>
+              <button type="button" class="example-btn" data-example="sqrt(x)">√x</button>
+              <button type="button" class="example-btn" data-example="exp(-x^2)">e^(-x²)</button>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>Limite a</span>
+            <input id="aInput" type="number" value="0" step="any" />
+          </label>
+
+          <label class="field">
+            <span>Limite b</span>
+            <input id="bInput" type="number" value="2" step="any" />
+          </label>
+
+          <label class="field">
+            <span>Eixo de rotação</span>
+            <select id="eixoSelect">
+              <option value="x">X</option>
+              <option value="y">Y</option>
+            </select>
+          </label>
+
+          <button id="calcularBtn" type="button" class="primary-btn">Calcular</button>
+        </div>
+
+        <div id="warningBanner" class="warning-banner" hidden></div>
+      </header>
+
+      <main class="content">
+        <section class="plots-grid">
+          <div class="canvas-panel">
+            <div class="panel-header">
+              <h2>Área sob a curva</h2>
+            </div>
+            <div class="plot-frame">
+              <canvas width="600" height="400" aria-label="Gráfico 2D da área"></canvas>
+            </div>
+          </div>
+
+          <div class="canvas-panel">
+            <div class="panel-header">
+              <h2>Sólido de revolução</h2>
+            </div>
+            <div class="plot-frame plot-3d-frame">
+              <div class="plot-3d-surface" aria-label="Visualização 3D do sólido"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slider-panel">
+          <div class="slider-header">
+            <label for="nSlider">n = <strong id="nValue">100</strong> retângulos</label>
+            <div class="slider-actions">
+              <button id="animateBtn" type="button" class="primary-btn small-btn">🎬 Animar</button>
+              <button id="pauseBtn" type="button" class="ghost-btn small-btn" hidden>⏸ Pausar</button>
+              <button id="stopBtn" type="button" class="ghost-btn small-btn" hidden>⏹ Parar</button>
+              <button id="exportBtn" type="button" class="ghost-btn">Exportar imagem</button>
+              <button id="shareBtn" type="button" class="ghost-btn">🔗 Copiar link</button>
+            </div>
+          </div>
+          <input id="nSlider" type="range" min="1" max="500" value="100" />
+
+          <div class="speed-control">
+            <label for="speedSlider">Duração da animação: <strong id="speedValue">4.5</strong>s</label>
+            <input id="speedSlider" type="range" min="1" max="10" step="0.5" value="4.5" />
+          </div>
+        </section>
+
+        <aside class="results-panel">
+          <div class="result-card" data-tooltip="Riemann = Δx * Σ f(xi)" tabindex="0">
+            <span>Área aproximada (Riemann)</span>
+            <strong id="riemannValue">0.000000</strong>
+          </div>
+
+          <div class="result-card" data-tooltip="Simpson = (h/3) [f(a)+f(b)+4Σ ímpares +2Σ pares]" tabindex="0">
+            <span>Área real (Simpson n=2000)</span>
+            <strong id="simpsonValue">0.000000</strong>
+          </div>
+
+          <div class="result-card accent" data-tooltip="Erro absoluto = |Área aproximada − Área real|" tabindex="0">
+            <span>Erro absoluto</span>
+            <strong id="erroValue">0.000000</strong>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
